@@ -8,6 +8,30 @@ table {
     text-align:center;
 }
 
+td, th {
+  text-align:center;
+  text-align: right;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #d1e1e7;
+}
+
+tr:nth-child(odd) {
+  background-color: #b4d6dd;
+}
+
+.headimage {
+  width: 60px;
+  height: 60px;
+}
+
+body{
+width: 99%;
+background-color: #abccd4;
+}
+
 /* Add a black background color to the top navigation */
 .topnav {
   background-color: #241114;
@@ -17,7 +41,7 @@ table {
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color:#d68490;
+  color:#7fd6ec;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -26,37 +50,16 @@ table {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #d8a4ac;
+  background-color: #4a9fb4;
   color:#1a0a0c;
   text-decoration-line: underline;
   text-decoration-style: double;
 }
 
-/* Add a color to the active/current link */
+/* Add a color to the active /current link */
 .topnav a.active {
-  background-color: #a15a66;
+  background-color: #3f7886;
   color: white;
-}
-
-  td, th {
-    text-align:center;
-    border: 5px solid #8a565e;
-    text-align: right;
-    padding: 8px;
-}
-  
-tr:nth-child(even) {
-    background-color: #a77079;
-}
-
-.headimage {
-    width: 60px;
-    height: 60px;
-}
-
-body{
-  width: 99%;
-  background-color: #af8c91;
 }
 
 .topnav .search-container {
@@ -75,21 +78,20 @@ body{
   padding: 6px;
   margin-top: 8px;
   margin-right: 16px;
-  background: #ddd;
+  background: #30788a;
   font-size: 17px;
   border: none;
   cursor: pointer;
 }
 
 .topnav .search-container button:hover {
-  background: #ccc;
+  background: #407b8a;
 }
-    
+
 @media screen and (max-width: 600px) {
   .topnav .search-container {
     float: none;
-}
-
+  }
   .topnav a, .topnav input[type=text], .topnav .search-container button {
     float: none;
     display: block;
@@ -99,6 +101,21 @@ body{
     padding: 14px;
   }
   .topnav input[type=text] {
-    border: 1px solid #ccc;
+    border: 1px solid #37636e;  
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/static/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #0c1518; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
 }

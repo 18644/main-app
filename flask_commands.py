@@ -40,6 +40,8 @@ def era():
     cursor.execute(sql)
     results = cursor.fetchall()
     return render_template("era.html", results=results)
+
+
     
 if __name__ == "__main__":
     app.run(debug=True)
