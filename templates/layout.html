@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
-    <link rel="shortcut icon" type="image/jpg" href="{{ url_for('static', filename='photo.png')}}"/>
+    <link rel="shortcut icon" type="image/jpg" href="{{ url_for('static', filename='logo.png')}}"/>
+    <link rel="stylesheet2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Game characters</title>
 </head>
 <body>
@@ -14,15 +15,10 @@
     </nav>
     
     <div class="topnav">
-        <a class="active" href="/">Franchise</a>
+        <a class="active" href="/"><i class="fa fa-fw fa-user"></i>Franchise</a>
         <a href="/characters">Characters</a>
         <a href="/era">Era</a>
-        <a href="/">Info</a>
-        <div class="search-container">
-            <form action="/action_page.php">
-              <input type="text" placeholder="Search...." name="search">
-              <button type="submit">Submit</button>
-            </form>
+        <a href="/info">Info</a>
       </div>
 
     {% block body %}
