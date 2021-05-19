@@ -1,6 +1,7 @@
 from flask import Flask,g,render_template,request,redirect,url_for
 import sqlite3
 
+
 app = Flask(__name__)
 
 DATABASE = 'characters.db'
@@ -33,13 +34,19 @@ def characters():
     results = cursor.fetchall()
     return render_template("characters.html", results=results)
 
-@app.route("/era")
+@app.route("/era, method=['GET', 'POST']")
 def era():
     cursor = get_db().cursor()
-    sql = ("SELECT * FROM era")
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("era.html", results=results)
+    if request.method == "POST":
+        book = request.form['book']
+        sql =("SELECT year, description from era WHERE year LIKE %s", (book))
+        data = cursor.fetchall()
+        if len(data) == 0 and book == 'all': 
+            sql = ("SELECT year, description from era")
+            cursor.execute(sql)
+            results = cursor.fetchall()
+        return render_template('era.html', results=results)
+    return render_template('era.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
