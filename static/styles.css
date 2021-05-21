@@ -8,6 +8,8 @@ table {
     text-align:center;
 }
 
+
+
 td, th {
   text-align:center;
   text-align: right;
@@ -69,24 +71,24 @@ background-color: #abccd4;
 form.example input[type=text] {
   padding: 10px;
   font-size: 17px;
-  border: 1px solid grey;
+  border: 1px solid #0f1e22;
   float: left;
   width: 80%;
-  background: #f1f1f1;
+  background:  #bfd6db;
 }
 form.example button {
   float: left;
   width: 20%;
   padding: 10px;
-  background: #2196F3;
-  color: white;
+  background:  #255966;
+  color:  #86b9c5;
   font-size: 17px;
-  border: 1px solid grey;
+  border: 1px solid  #102429;
   border-left: none;
   cursor: pointer;
 }
 form.example button:hover {
-  background: #0b7dda;
+  background:  #6eb0c0;
 }
 form.example::after {
   content: "";

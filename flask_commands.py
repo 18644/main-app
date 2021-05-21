@@ -34,19 +34,29 @@ def characters():
     results = cursor.fetchall()
     return render_template("characters.html", results=results)
 
-@app.route("/era, method=['GET', 'POST']")
+@app.route("/searchE", methods=['GET', 'POST'])
 def era():
     cursor = get_db().cursor()
     if request.method == "POST":
-        book = request.form['book']
-        sql =("SELECT year, description from era WHERE year LIKE %s", (book))
-        data = cursor.fetchall()
-        if len(data) == 0 and book == 'all': 
+        year = request.form['year']
+        sql =("SELECT year, description from era WHERE year LIKE %s", (year))
+        results = cursor.fetchall()
+        if len(results) == 0 and era == 'all': 
             sql = ("SELECT year, description from era")
             cursor.execute(sql)
             results = cursor.fetchall()
-        return render_template('era.html', results=results)
-    return render_template('era.html')
+        return render_template('searchE.html', results=results)
+    return render_template('searchE.html')
+
+@app.route('/insertE', methods=['GET', 'POST'])
+def insert():
+    cursor = get_db().cursor()
+    if request.method == "POST":
+        year = request.form['year']
+        sql = ("INSERT INTO era (year, description) Values (%s)", (year))
+        cursor.execute(sql)
+        return redirect("http://localhost:5000/searchE", code=302)
+    return render_template('insertE.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
