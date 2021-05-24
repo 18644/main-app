@@ -1,4 +1,4 @@
-from flask import Flask,g,render_template,request,redirect,url_for
+from flask import Flask,g,render_template,request,redirect,url_for,flash
 import sqlite3
 
 
@@ -39,8 +39,10 @@ def era():
     cursor = get_db().cursor()
     if request.method == "POST":
         era = request.values['era']
-        sql =("SELECT year, description from era WHERE year LIKE %s", (era))
+        sql =("SELECT year, description from era WHERE year LIKE ?")
+        cursor.execute(sql,(era,))
         results = cursor.fetchall()
+        print(results)
         if len(results) == 0 and era == 'all': 
             sql = ("SELECT year, description from era")
             cursor.execute(sql)
@@ -53,8 +55,8 @@ def insert():
     cursor = get_db().cursor()
     if request.method == "POST":
         era = request.values['era']
-        sql = ("INSERT INTO era (year, description) Values (%s)", (era))
-        cursor.execute(sql)
+        sql = ("INSERT INTO era (year, description) Values (?)")
+        cursor.execute(sql,(era,))
         return redirect("http://localhost:5000/searchE", code=302)
     return render_template('insertE.html')
 
