@@ -38,8 +38,8 @@ def characters():
 def era():
     cursor = get_db().cursor()
     if request.method == "POST":
-        year = request.form['year']
-        sql =("SELECT year, description from era WHERE year LIKE %s", (year))
+        era = request.values['era']
+        sql =("SELECT year, description from era WHERE year LIKE %s", (era))
         results = cursor.fetchall()
         if len(results) == 0 and era == 'all': 
             sql = ("SELECT year, description from era")
@@ -52,8 +52,8 @@ def era():
 def insert():
     cursor = get_db().cursor()
     if request.method == "POST":
-        year = request.form['year']
-        sql = ("INSERT INTO era (year, description) Values (%s)", (year))
+        era = request.values['era']
+        sql = ("INSERT INTO era (year, description) Values (%s)", (era))
         cursor.execute(sql)
         return redirect("http://localhost:5000/searchE", code=302)
     return render_template('insertE.html')
