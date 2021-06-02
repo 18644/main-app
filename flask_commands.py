@@ -18,6 +18,10 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+@app.route("/info")
+def info():
+    return "test."
+
 @app.route("/")
 def home():
     cursor = get_db().cursor()
@@ -33,6 +37,14 @@ def characters():
     cursor.execute(sql)
     results = cursor.fetchall()
     return render_template("characters.html", results=results)
+
+@app.route("/details")
+def details():
+    cursor = get_db().cursor()
+    sql = ("SELECT description FROM franchise")
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return render_template("details.html", results=result)
 
 @app.route("/searchE", methods=['GET', 'POST'])
 def era():

@@ -8,11 +8,8 @@ table {
     text-align:center;
 }
 
-
-
 td, th {
-  text-align:center;
-  text-align: right;
+  text-align: left;
   padding: 8px;
 }
 
@@ -60,7 +57,7 @@ background-color: #abccd4;
 
 /* Add a color to the active /current link */
 .topnav a.active {
-  background-color: #3f7886;
+  background-color: #2b6372;
   color: white;
 }
 
