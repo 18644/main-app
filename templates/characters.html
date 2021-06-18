@@ -2,12 +2,12 @@
 {% block body %}
 <table>
     <tr>
+        <th> </th>
         <th>Name</th>
-        <th>Description</th>
     </tr>
     {% for item in results %}
     <tr>
-        <td>{{ item[0] }}</td>
+        <td><a href="{{ url_for('details_characters', id=item[0]) }}"><i class="fa fa-search"></i></a></td>
         <td>{{ item[1] }}</td>
     </tr>
     {% endfor %}

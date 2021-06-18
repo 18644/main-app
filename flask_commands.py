@@ -1,9 +1,8 @@
-from flask import Flask,g,render_template,request,redirect,url_for,flash
+from flask import Flask,g,render_template,request,redirect,url_for,flash,session
 import sqlite3
 
 
 app = Flask(__name__)
-
 DATABASE = 'characters.db'
 
 def get_db():
@@ -18,33 +17,38 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-@app.route("/info")
-def info():
-    return "test."
-
 @app.route("/")
 def home():
     cursor = get_db().cursor()
     sql = ("SELECT * FROM franchise")
     cursor.execute(sql)
     results = cursor.fetchall()
-    return render_template("franchise.html", results=results)
+    return render_template("franchise.html", name=session.get("username","Unknown"), results=results)
+
+@app.route("/details/<int:id>")
+def details(id):
+    cursor = get_db().cursor()
+    description = ("SELECT description FROM franchise WHERE id=?")
+    cursor.execute(description,(id,))
+    results = cursor.fetchall()
+    return render_template("details.html", results=results)
+
+@app.route("/details_characters/<int:id>")
+def details_characters(id):
+    cursor = get_db().cursor()
+    description = ("SELECT description FROM characters WHERE id=?")
+    cursor.execute(description,(id,))
+    results = cursor.fetchall()
+    return render_template("details_characters.html", results=results)
+
 
 @app.route("/characters")
 def characters():
     cursor = get_db().cursor()
-    sql = ("SELECT name,description FROM characters")
+    sql = ("SELECT * FROM characters")
     cursor.execute(sql)
     results = cursor.fetchall()
     return render_template("characters.html", results=results)
-
-@app.route("/details")
-def details():
-    cursor = get_db().cursor()
-    sql = ("SELECT description FROM franchise")
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return render_template("details.html", results=result)
 
 @app.route("/searchE", methods=['GET', 'POST'])
 def era():
@@ -71,6 +75,18 @@ def insert():
         cursor.execute(sql,(era,))
         return redirect("http://localhost:5000/searchE", code=302)
     return render_template('insertE.html')
+
+@app.route("/login", methods=["GET","POST"])
+def login():
+    return render_template('login.html')
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
+
+@app.route("/logout")
+def logout():
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(debug=True)
