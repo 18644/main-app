@@ -1,10 +1,13 @@
 from flask import Flask,g,render_template,request,redirect,url_for,flash,session
 import sqlite3
-
+import os
 
 app = Flask(__name__)
 DATABASE = 'characters.db'
 
+app.secret_key = b'_5#y2L"F4Q8z\n\xeb]/'
+
+#This connects the database to the website, allowing display of things within the database.
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -17,14 +20,26 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+#The home page, displays the 'franchise' table.
 @app.route("/")
 def home():
+    if 'username' in session:
+        results = f'Logged in as {session["username"]}'
+        return render_template("home.html", result=results)
+    results = ("Not logged in")
+    return render_template("home.html", result=results)
+
+
+@app.route("/franchise")
+def franchise():
     cursor = get_db().cursor()
     sql = ("SELECT * FROM franchise")
     cursor.execute(sql)
     results = cursor.fetchall()
     return render_template("franchise.html", name=session.get("username","Unknown"), results=results)
 
+
+#Allows the chosen description from the franchise table to be displayed by the id.
 @app.route("/details/<int:id>")
 def details(id):
     cursor = get_db().cursor()
@@ -33,6 +48,7 @@ def details(id):
     results = cursor.fetchall()
     return render_template("details.html", results=results)
 
+#Allows the chosen description from the character table to be displayed by its id.
 @app.route("/details_characters/<int:id>")
 def details_characters(id):
     cursor = get_db().cursor()
@@ -41,7 +57,7 @@ def details_characters(id):
     results = cursor.fetchall()
     return render_template("details_characters.html", results=results)
 
-
+#
 @app.route("/characters")
 def characters():
     cursor = get_db().cursor()
@@ -76,17 +92,65 @@ def insert():
         return redirect("http://localhost:5000/searchE", code=302)
     return render_template('insertE.html')
 
-@app.route("/login", methods=["GET","POST"])
+@app.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template("login.html")
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route('/register', methods=['GET','POST'])
 def register():
+    if request.method == "POST":
+        cursor = get_db().cursor()
+        user_id = request.form.get("username")
+        password = request.form.get("password")
+
+        sql = ("INSERT INTO login(user_id, password) values (?,?)")
+        print (user_id + " user") 
+        print (password + " pass")
+        try:
+            cursor.execute(sql,(user_id, password))
+            cursor = get_db().commit()
+        except:
+            flash ("this username already exists!")
+        return redirect ("/register")
+
     return render_template("register.html")
 
-@app.route("/logout")
+@app.route('/logged')
+def logged():
+    home()
+    cursor = get_db().cursor()
+    sql = ("SELECT * FROM login WHERE user_id = (?)")
+    cursor.execute(sql,(session['username'],))
+    results = cursor.fetchall()
+    print(results)
+    return render_template("logged.html", results=results)
+
+@app.route('/fail')
+def fail():
+    return render_template("fail.html")
+
+@app.route('/find', methods=['GET','POST'])
+def logging():
+    if request.method == "POST":
+
+        cursor = get_db().cursor()
+        user_id = request.form.get("username")
+        password = request.form.get("password")
+        find_user = ("SELECT * FROM login WHERE (user_id,password) = (?,?)")
+        cursor.execute(find_user,(user_id, password))
+        results = cursor.fetchall()
+        print (results)
+
+        if len(results) > 0:
+            session['username'] = request.form['username']
+            flash ("you logged in")
+            return redirect ("/login")
+            
+
+@app.route('/logout')
 def logout():
-    return redirect(url_for("home"))
+    session.pop('username', None)
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(debug=True)

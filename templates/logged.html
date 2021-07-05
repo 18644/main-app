@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+logged
+{% endblock %}
+
+{% block body %}
+
+<table> 
+    <tr>
+        <th>username</th>
+        <th>email</th>
+    </tr>
+    {% for item in results %}
+    <tr>
+        <td>{{ item[1] }} </td>
+        <td>{{ item[2] }} </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

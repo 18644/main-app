@@ -4,26 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
-    <link rel="shortcut icon" type="image/jpg" href="{{ url_for('static', filename='logo.png')}}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" type="image/jpg" href="{{ url_for('static', filename='logo.png')}}"/>
     <title>Game characters</title>
 </head>
 <body>
-    <nav>
         <div class="bd.example" align="middle">
         <h1>Database.</h1>
-    </nav>
+        <header>
+            <div class="button">
+                <a title="log out" href="logout">logging out?</a>
+            </button>
+        </header>
     
-    <div class="topnav">
-        <a href="/"><i class="fa fa-fw fa-user"></i>Franchise</a>
-        <a href="/characters">Characters</a>
-        <a href="/searchE">Era</a>
-        <a href="/login">login</a>
-      </div>
+        <div class="topnav">
+            <a href="/"><i class="fa fa-fw fa-user"></i>Home</a>
+            <a href="franchise"><i class="fa fa-fw fa-user"></i>Franchise</a>
+            <a href="characters">Characters</a>
+            <a href="searchE">Era</a>
+            <a href="register">Register?</a>
+            <a href="login">login?</a>
+        </div>
+        
+        {% block body %}
+        
+        {% endblock %}
+        
+        {% with messages = get_flashed_messages() %}
 
-    {% block body %}
+    {% if messages %}
 
-    {% endblock %}
+        <ul class=flashes>
+
+        {% for message in messages %}
+
+            <li>{{ message }}</li>
+        
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+{% endwith %}
+
 </body>
-
+</div>
 </html>
