@@ -1,4 +1,5 @@
 from flask import Flask,g,render_template,request,redirect,url_for,flash,session
+from wtforms import Form, BooleanField, StringField, PasswordField, validators
 import sqlite3
 import os
 
@@ -26,70 +27,92 @@ def home():
     if 'username' in session:
         results = f'Logged in as {session["username"]}'
         return render_template("home.html", result=results)
-    results = ("Not logged in")
-    return render_template("home.html", result=results)
-
+    else:
+        return redirect(url_for('login'))
 
 @app.route("/franchise")
 def franchise():
-    cursor = get_db().cursor()
-    sql = ("SELECT * FROM franchise")
-    cursor.execute(sql)
-    results = cursor.fetchall()
+    if 'username' in session:
+        cursor = get_db().cursor()
+        sql = ("SELECT * FROM franchise")
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    else:
+        flash('Login first!')
+        return redirect(url_for('login'))
     return render_template("franchise.html", name=session.get("username","Unknown"), results=results)
-
 
 #Allows the chosen description from the franchise table to be displayed by the id.
 @app.route("/details/<int:id>")
 def details(id):
-    cursor = get_db().cursor()
-    description = ("SELECT description FROM franchise WHERE id=?")
-    cursor.execute(description,(id,))
-    results = cursor.fetchall()
+    if 'username' in session:
+        cursor = get_db().cursor()
+        description = ("SELECT description FROM franchise WHERE id=?")
+        cursor.execute(description,(id,))
+        results = cursor.fetchall()
+    else:
+        flash('Login first!')
+        return redirect(url_for('login'))
     return render_template("details.html", results=results)
 
 #Allows the chosen description from the character table to be displayed by its id.
 @app.route("/details_characters/<int:id>")
 def details_characters(id):
-    cursor = get_db().cursor()
-    description = ("SELECT description FROM characters WHERE id=?")
-    cursor.execute(description,(id,))
-    results = cursor.fetchall()
+    if 'username' in session:
+        cursor = get_db().cursor()
+        description = ("SELECT description FROM characters WHERE id=?")
+        cursor.execute(description,(id,))
+        results = cursor.fetchall()
+    else:
+        flash('Login first!')
+        return redirect(url_for('login'))
     return render_template("details_characters.html", results=results)
 
-#
 @app.route("/characters")
 def characters():
-    cursor = get_db().cursor()
-    sql = ("SELECT * FROM characters")
-    cursor.execute(sql)
-    results = cursor.fetchall()
+    if 'username' in session:
+        cursor = get_db().cursor()
+        sql = ("SELECT * FROM characters")
+        cursor.execute(sql)
+        results = cursor.fetchall()
+    else:
+        flash('Login first!')
+        return redirect(url_for('login'))
     return render_template("characters.html", results=results)
 
 @app.route("/searchE", methods=['GET', 'POST'])
 def era():
-    cursor = get_db().cursor()
-    if request.method == "POST":
-        era = request.values['era']
-        sql =("SELECT year, description from era WHERE year LIKE ?")
-        cursor.execute(sql,(era,))
-        results = cursor.fetchall()
-        print(results)
-        if len(results) == 0 and era == 'all': 
-            sql = ("SELECT year, description from era")
-            cursor.execute(sql)
+    if 'username' in session:
+        cursor = get_db().cursor()
+        if request.method == "POST":
+            era = request.values['era']
             results = cursor.fetchall()
-        return render_template('searchE.html', results=results)
+            if len(results) == 0 and era == 'all':
+                sql = ("SELECT year, description from era")
+                cursor.execute(sql)
+                results = cursor.fetchall()
+            else:
+                sql = ("SELECT year, description from era WHERE year LIKE ?")
+                cursor.execute(sql,(era,))
+                results = cursor.fetchall()
+            return render_template('searchE.html', results=results)
+    else:
+        flash('Login first!')
+        return redirect(url_for('login'))  
     return render_template('searchE.html')
 
 @app.route('/insertE', methods=['GET', 'POST'])
 def insert():
-    cursor = get_db().cursor()
-    if request.method == "POST":
-        era = request.values['era']
-        sql = ("INSERT INTO era (year, description) Values (?)")
-        cursor.execute(sql,(era,))
-        return redirect("http://localhost:5000/searchE", code=302)
+    if 'username' in session:
+        cursor = get_db().cursor()
+        if request.method == "POST":
+            era = request.values['era']
+            sql = ("INSERT INTO era (year, description) Values (?)")
+            cursor.execute(sql,(era,))
+            return redirect("http://localhost:5000/searchE", code=302)
+    else:
+        flash('Login first!')
+        return redirect(url_for('login'))
     return render_template('insertE.html')
 
 @app.route('/login')
@@ -109,10 +132,10 @@ def register():
         try:
             cursor.execute(sql,(user_id, password))
             cursor = get_db().commit()
+            flash ("Welcome!")
         except:
             flash ("this username already exists!")
         return redirect ("/register")
-
     return render_template("register.html")
 
 @app.route('/logged')
@@ -123,7 +146,7 @@ def logged():
     cursor.execute(sql,(session['username'],))
     results = cursor.fetchall()
     print(results)
-    return render_template("logged.html", results=results)
+    return render_template("home.html", results=results)
 
 @app.route('/fail')
 def fail():
@@ -132,7 +155,6 @@ def fail():
 @app.route('/find', methods=['GET','POST'])
 def logging():
     if request.method == "POST":
-
         cursor = get_db().cursor()
         user_id = request.form.get("username")
         password = request.form.get("password")
@@ -140,13 +162,11 @@ def logging():
         cursor.execute(find_user,(user_id, password))
         results = cursor.fetchall()
         print (results)
-
         if len(results) > 0:
             session['username'] = request.form['username']
-            flash ("you logged in")
+            flash ("you have logged in!")
             return redirect ("/login")
             
-
 @app.route('/logout')
 def logout():
     session.pop('username', None)
