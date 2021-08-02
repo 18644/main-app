@@ -5,7 +5,10 @@ table {
     width: 98%;
 }
 
-
+.error {
+  padding: 20px;
+  text-align: center;
+}
 
 th{
   border: 1px solid #3c5f69;
@@ -36,12 +39,14 @@ tr:nth-child(odd) {
 }
 
 body{
-width: 99%;
-background-color: #abccd4;
+  width: 99%;
+  text-align: center;
+  background-color: #abccd4;
 }
 
 /* Add a black background color to the top navigation */
 .topnav {
+  text-align: center;
   background-color: #241114;
   overflow: hidden;
   
@@ -59,6 +64,8 @@ background-color: #abccd4;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+  border: #000000;
+  border-radius: 2px;
 }
 
 /* Change the color of links on hover */
@@ -105,4 +112,34 @@ form.example::after {
   content: "";
   clear: both;
   display: table;
+}
+
+.button{
+  text-align: right;
+  border-radius: 4px;
+  }
+
+  .button a{
+  float: center;
+  color: #7fd6ec;
+  background-color: #3c5f69;
+  padding: 3px 120px;
+  text-decoration: underline;
+}
+
+.T{
+  width: 320px;
+  padding: 10px;
+  border: 5px solid #7fd6ec;
+  margin: 0;
+}
+
+.flashes > li{
+  list-style-type: none;
+}
+
+.alert-error {
+  text-align: center;
+  padding: 8px;
+  color: #102429;
 }
