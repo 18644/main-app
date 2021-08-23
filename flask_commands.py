@@ -21,15 +21,17 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-#The home page, displays the 'franchise' table.
+#The home page, ensures the user is logged in.
 @app.route("/")
 def home():
     if 'username' in session:
         results = f'Logged in as {session["username"]}'
         return render_template("home.html", result=results)
     else:
+        flash("You have been redirected to the home page. please log in first to access this page!")
         return redirect(url_for('login'))
 
+#displays the franchise table, only if the user is logged in.
 @app.route("/franchise")
 def franchise():
     if 'username' in session:
@@ -38,11 +40,11 @@ def franchise():
         cursor.execute(sql)
         results = cursor.fetchall()
     else:
-        flash('Login first!')
+        flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))
     return render_template("franchise.html", name=session.get("username","Unknown"), results=results)
 
-#Allows the chosen description from the franchise table to be displayed by the id.
+#Allows the chosen description from the franchise table to be displayed by the id. This only happens if the user is logged in.
 @app.route("/details/<int:id>")
 def details(id):
     if 'username' in session:
@@ -51,23 +53,11 @@ def details(id):
         cursor.execute(description,(id,))
         results = cursor.fetchall()
     else:
-        flash('Login first!')
+        flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))
     return render_template("details.html", results=results)
 
-#Allows the chosen description from the character table to be displayed by its id.
-@app.route("/details_characters/<int:id>")
-def details_characters(id):
-    if 'username' in session:
-        cursor = get_db().cursor()
-        description = ("SELECT description FROM characters WHERE id=?")
-        cursor.execute(description,(id,))
-        results = cursor.fetchall()
-    else:
-        flash('Login first!')
-        return redirect(url_for('login'))
-    return render_template("details_characters.html", results=results)
-
+#Displays the character table, only if the user is logged in.
 @app.route("/characters")
 def characters():
     if 'username' in session:
@@ -76,10 +66,25 @@ def characters():
         cursor.execute(sql)
         results = cursor.fetchall()
     else:
-        flash('Login first!')
+        flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))
     return render_template("characters.html", results=results)
 
+
+#Allows the chosen description from the character table to be displayed by its id. This only happens if the user is logged in.
+@app.route("/details_characters/<int:id>")
+def details_characters(id):
+    if 'username' in session:
+        cursor = get_db().cursor()
+        description = ("SELECT description FROM characters WHERE id=?")
+        cursor.execute(description,(id,))
+        results = cursor.fetchall()
+    else:
+        flash('You have been redirected to the home page. please log in first to access this page!')
+        return redirect(url_for('login'))
+    return render_template("details_characters.html", results=results)
+
+#This allows the user to search for a particular year by a search bar. This is only if the user is logged in.
 @app.route("/searchE", methods=['GET', 'POST'])
 def era():
     if 'username' in session:
@@ -97,10 +102,12 @@ def era():
                 results = cursor.fetchall()
             return render_template('searchE.html', results=results)
     else:
-        flash('Login first!')
+        flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))  
     return render_template('searchE.html')
 
+#This allows the information the user is asked for from the era table to be displayed. 
+#if found, the data is displayed. If not, the page redirectes for the user to search again. This only happens if the user is logged in.
 @app.route('/insertE', methods=['GET', 'POST'])
 def insert():
     if 'username' in session:
@@ -110,15 +117,20 @@ def insert():
             sql = ("INSERT INTO era (year, description) Values (?)")
             cursor.execute(sql,(era,))
             return redirect("http://localhost:5000/searchE", code=302)
+        else:
+            flash("No results found, try again!")
+            return redirect("http://localhost:5000/searchE", code=302)
     else:
-        flash('Login first!')
+        flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))
     return render_template('insertE.html')
+
 
 @app.route('/login')
 def login():
     return render_template("login.html")
 
+#This page allows for the user to create their own username and password. It does not allow for two users to have the same username.
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == "POST":
@@ -146,12 +158,12 @@ def logged():
     cursor.execute(sql,(session['username'],))
     results = cursor.fetchall()
     print(results)
-    return render_template("home.html", results=results)
 
 @app.route('/fail')
 def fail():
     return render_template("fail.html")
 
+#This page allows for the user to log in if they already have a username and password. This page will also appear if the user trys to access a page when they have not yet logged in.
 @app.route('/find', methods=['GET','POST'])
 def logging():
     if request.method == "POST":
@@ -165,8 +177,12 @@ def logging():
         if len(results) > 0:
             session['username'] = request.form['username']
             flash ("you have logged in!")
+            return redirect ("/")
+        else:
+            flash("Incorrect username and or password. Please try again.")
             return redirect ("/login")
-            
+
+#allows the user to log out and clear their cookies.
 @app.route('/logout')
 def logout():
     session.pop('username', None)

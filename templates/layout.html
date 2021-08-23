@@ -10,21 +10,25 @@
 </head>
 <body>
         <div class="bd.example" align="middle">
-        <h1>Database.</h1>
-    
+        <div class="header">
+            <img  class="animated-gif" src="{{url_for('static', filename='header-gif.gif')}}" />
+        </div>
+
         <div class="topnav">
             <a href="/"><i class="fa fa-fw fa-user"></i>Home</a>
             <a href="franchise"><i class="fa fa-fw fa-user"></i>Franchise</a>
             <a href="characters">Characters</a>
             <a href="searchE">Era</a>
             <a href="register">Register?</a>
-            <a href="login">login?</a>
+            <div class="logout_button">
+                <a href="logout">logging out?</a>
+            </div>
         </div>
 
         <header>
             <div class="button">
                 <a title="log out" href="logout">Logging out?</a>
-            </button>
+            </div>
         </header>
 
         {% block body %}
@@ -39,9 +43,9 @@
 
         {% for message in messages %}
             <div class="alert-error">{{ message }}</div>
-        
         {% endfor %}
-    </ul>
+
+        </ul>
 
     {% endif %}
 {% endwith %}

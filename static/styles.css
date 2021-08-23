@@ -1,13 +1,53 @@
 table {
-    margin: 20px;
-    font-family: sans-serif, Arial, Helvetica;
-    border-collapse: collapse;
-    width: 98%;
+  margin: 20px;
+  font-family: sans-serif, Arial, Helvetica;
+  border-collapse: collapse;
+  width: 98%;
+}
+
+.logout_button{
+  background-color: crimson;
+}
+
+img.animated-gif{
+  width: 99%;
 }
 
 .error {
   padding: 20px;
   text-align: center;
+  color: #7fd6ec;
+  background-color: #1c424d;
+  width: 99%;
+}
+
+body{
+  width: 99%;
+  text-align: center;
+  background-color: #abccd4;
+  border-width: medium;
+  border: #241114;
+  border-style: double;
+  padding: 0;
+}
+
+.submit{
+  padding: 15px;
+}
+
+.header{
+  text-align: center;
+}
+
+.login-section{
+  text-align: center;
+  background-color: #2b6372;
+  border: 50px ,ridge, #0f1e22;
+  border-width: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  width: 20%;
 }
 
 th{
@@ -38,21 +78,14 @@ tr:nth-child(odd) {
   height: 60px;
 }
 
-body{
-  width: 99%;
-  text-align: center;
-  background-color: #abccd4;
-}
-
 /* Add a black background color to the top navigation */
 .topnav {
+  position: fixed;
+  top: 0;
+  width: 97%;
   text-align: center;
   background-color: #241114;
   overflow: hidden;
-  
-}
-
-.topnav {
   margin-bottom: 0;
 }
 
@@ -66,6 +99,7 @@ body{
   font-size: 17px;
   border: #000000;
   border-radius: 2px;
+  border-style: solid;
 }
 
 /* Change the color of links on hover */
@@ -94,10 +128,11 @@ form.example input[type=text] {
   width: 80%;
   background:  #bfd6db;
 }
+
 form.example button {
   float: left;
   width: 20%;
-  padding: 10px;
+  padding: 14px 16px;
   background:  #255966;
   color:  #86b9c5;
   font-size: 17px;
@@ -105,9 +140,11 @@ form.example button {
   border-left: none;
   cursor: pointer;
 }
+
 form.example button:hover {
   background:  #6eb0c0;
 }
+
 form.example::after {
   content: "";
   clear: both;
@@ -117,20 +154,22 @@ form.example::after {
 .button{
   text-align: right;
   border-radius: 4px;
+  border-style: solid;
   }
 
   .button a{
   float: center;
   color: #7fd6ec;
   background-color: #3c5f69;
-  padding: 3px 120px;
+  padding: 14px 120px;
   text-decoration: underline;
 }
 
 .T{
   width: 320px;
   padding: 10px;
-  border: 5px solid #7fd6ec;
+  border: 5px, solid, #7fd6ec;
+  background-color: #608e9c;
   margin: 0;
 }
 
@@ -141,5 +180,6 @@ form.example::after {
 .alert-error {
   text-align: center;
   padding: 8px;
-  color: #102429;
+  color: #558e9c;
+  background-color: #18353d;
 }
