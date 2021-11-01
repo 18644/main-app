@@ -3,13 +3,13 @@
 {% block body %}
 
 
-<form action="/find" method="post" required>
+<form action="/find" class="log-in" method="post" required>
     <T>
         <h2>Logging in.</h2>
-        <input placeholder = "username" type="text" name="username" required>
-        <input placeholder = "password" type="text" name="password" required>
-        <input type="submit" value="login!">
+        <div class="zz"><input placeholder = "username" type="text" name="username" required></div>
+        <div class="zz"><input placeholder ="password" type="text" name="password" required></div>
+        <div class="z"><input type="submit" value="login!"></div>
     </T>
-</form>
+</form></div>
 
 {% endblock %}

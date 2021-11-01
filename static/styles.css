@@ -9,8 +9,16 @@ table {
   background-color: crimson;
 }
 
+.messages ul {
+  text-align: center;
+}
+
 img.animated-gif{
-  width: 99%;
+  width: 100%;
+  border: px ,ridge, #0f1e22;
+  overflow: hidden;
+  padding-bottom: 10px;
+  
 }
 
 .error {
@@ -22,12 +30,10 @@ img.animated-gif{
 }
 
 body{
-  width: 99%;
+  width: 100%;
+  margin: 0px;
   text-align: center;
-  background-color: #abccd4;
-  border-width: medium;
-  border: #241114;
-  border-style: double;
+  background-color: #e4d1dd;
   padding: 0;
 }
 
@@ -82,19 +88,22 @@ tr:nth-child(odd) {
 .topnav {
   position: fixed;
   top: 0;
-  width: 97%;
+  width: 100%;
+  padding: 10px 1px;
   text-align: center;
-  background-color: #241114;
+  margin-left: -4px;
+  padding-right: middle;
+  background-color: #000000;
   overflow: hidden;
   margin-bottom: 0;
 }
 
 /* Style the links inside the navigation bar */
 .topnav a {
-  float: left;
+  float: inline-end;
   color:#7fd6ec;
   text-align: center;
-  padding: 14px 16px;
+  padding: 10px 1px;
   text-decoration: none;
   font-size: 17px;
   border: #000000;
@@ -132,17 +141,17 @@ form.example input[type=text] {
 form.example button {
   float: left;
   width: 20%;
-  padding: 14px 16px;
-  background:  #255966;
+  padding: 10px 16px;
+  background:  #000000;
   color:  #86b9c5;
   font-size: 17px;
-  border: 1px solid  #102429;
   border-left: none;
   cursor: pointer;
 }
 
 form.example button:hover {
-  background:  #6eb0c0;
+  background:  #e4d1dd;
+  color:#000000;
 }
 
 form.example::after {
@@ -152,16 +161,17 @@ form.example::after {
 }
 
 .button{
+  position: fixed;
+  float: inline-end;
+  top: 0;
   text-align: right;
-  border-radius: 4px;
-  border-style: solid;
   }
 
   .button a{
-  float: center;
-  color: #7fd6ec;
-  background-color: #3c5f69;
-  padding: 14px 120px;
+  float: right;
+  color: #e4d1dd;
+  background-color: #000000;
+  padding: 10px 1px;
   text-decoration: underline;
 }
 
@@ -175,11 +185,34 @@ form.example::after {
 
 .flashes > li{
   list-style-type: none;
+  text-align: center;
 }
 
 .alert-error {
+  width: 50%;
   text-align: center;
   padding: 8px;
-  color: #558e9c;
-  background-color: #18353d;
+  color: #e4d1dd;
+  background-color: #2b6372;
+}
+
+.log-in{
+  background-color: #2b6372;
+  border:4px,solid,#163741;
+  padding: 10px;
+  width: 50%;
+  text-align: center;
+}
+
+.z{
+  border: none;
+  color: rgb(46, 9, 41);
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.zz{
+  padding-bottom: 10px;
 }
