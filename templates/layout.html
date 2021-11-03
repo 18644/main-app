@@ -28,22 +28,22 @@
             </div>
         </header>
 
-        {% block body %}
-        
-        {% endblock %}
-        
-    {% with messages = get_flashed_messages() %}
+                {% block body %}
+                
+                {% endblock %}
+                
+            {% with messages = get_flashed_messages() %}
 
-    {% if messages %}
+            {% if messages %}
+                <div class="flashes">
+                <ul>
 
-        <ul class=flashes>
+                {% for message in messages %}
+                    <div class="alert-error" align="middle">{{ message }}</div>
+                {% endfor %}
 
-        {% for message in messages %}
-            <div class="alert-error">{{ message }}</div>
-        {% endfor %}
-
-        </ul>
-
+                </ul>
+        </div>
     {% endif %}
 {% endwith %}
 
