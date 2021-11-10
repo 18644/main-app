@@ -1,11 +1,11 @@
 from flask import Flask,g,render_template,request,redirect,url_for,flash,session
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
 import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
 DATABASE = 'characters.db'
-
 app.secret_key = b'_5#y2L"F4Q8z\n\xeb]/'
 
 #This connects the database to the website, allowing display of things within the database.
@@ -15,11 +15,11 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 #The home page, ensures the user is logged in.
 @app.route("/")
@@ -92,10 +92,8 @@ def era():
         if request.method == "POST":
             era = request.values['era']
             results = cursor.fetchall()
-            if len(results) == 0 and era == 'all':
-                sql = ("SELECT year, description from era")
-                cursor.execute(sql)
-                results = cursor.fetchall()
+            if len(results) == 0:
+                flash("Nothing found, please try again.")
             else:
                 sql = ("SELECT year, description from era WHERE year LIKE ?")
                 cursor.execute(sql,(era,))
@@ -114,12 +112,15 @@ def insert():
         cursor = get_db().cursor()
         if request.method == "POST":
             era = request.values['era']
-            sql = ("INSERT INTO era (year, description) Values (?)")
-            cursor.execute(sql,(era,))
-            return redirect("http://localhost:5000/searchE", code=302)
-        else:
-            flash("No results found, try again!")
-            return redirect("http://localhost:5000/searchE", code=302)
+            sql = ("INSERT INTO era (year) Values (?)")
+            if len(sql) == 0:
+                flash("Nothing found, please try again.")
+                return redirect('searchE.html')
+            else:
+                cursor.execute(sql,(era,))
+                results = cursor.fetchall()
+                return redirect('searchE.html')
+            return render_template('insertE.html', results=results)
     else:
         flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))
@@ -137,12 +138,12 @@ def register():
         cursor = get_db().cursor()
         user_id = request.form.get("username")
         password = request.form.get("password")
-
+        password_hash = generate_password_hash(password)
         sql = ("INSERT INTO login(user_id, password) values (?,?)")
-        print (user_id + " user") 
-        print (password + " pass")
+        print (user_id + "user") 
+        print (password + "pass")
         try:
-            cursor.execute(sql,(user_id, password))
+            cursor.execute(sql,(user_id, password_hash))
             cursor = get_db().commit()
             flash ("Welcome!")
         except:
@@ -170,11 +171,12 @@ def logging():
         cursor = get_db().cursor()
         user_id = request.form.get("username")
         password = request.form.get("password")
+        password_hash = generate_password_hash(password)
         find_user = ("SELECT * FROM login WHERE (user_id,password) = (?,?)")
-        cursor.execute(find_user,(user_id, password))
+        cursor.execute(find_user,(user_id, password_hash))
         results = cursor.fetchall()
         print (results)
-        if len(results) > 0:
+        if check_password_hash(password_hash, password):
             session['username'] = request.form['username']
             flash ("you have logged in!")
             return redirect ("/")

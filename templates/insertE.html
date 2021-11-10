@@ -15,15 +15,16 @@
             </form>
 
 <table>
+    {% for item in results %}
     <tr>
         <th>Year</th>
         <th>Description</th>
     </tr>
-    {% for item in results %}
     <tr>
         <td>{{ item[0] }}</td>
         <td>{{ item[1] }}</td>
     </tr>
+    {% else %}
     {% endfor %}
 </table>
 

@@ -1,8 +1,7 @@
 table {
-  margin: 20px;
   font-family: sans-serif, Arial, Helvetica;
   border-collapse: collapse;
-  width: 98%;
+  width: 77%;
 }
 
 .logout_button{
@@ -24,12 +23,14 @@ img.animated-gif{
   background-color: #1c424d;
 }
 
-
-.messages ul {
+.ul {
+  width: 100%;
   text-align: center;
+  display: table;
+  margin: 0 auto;
 }
 
-body{
+body, input[class=flash]{
   width: 100%;
   margin: 0px;
   text-align: center;
@@ -47,8 +48,8 @@ body{
 
 .login-section{
   text-align: center;
-  background-color: #2b6372;
-  border: 50px ,ridge, #0f1e22;
+  background-color: #e4d1dd;
+  border: 50px ,ridge, #220f18;
   border-width: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -57,13 +58,13 @@ body{
 }
 
 th{
-  border: 1px solid #3c5f69;
-  background: #608e9c;
+  border: 1px solid #725266;
+  background: #b4719b;
   padding-top: 20px;
 }
 
 td{
-  border-bottom: 1px solid #3c5f69;
+  border-bottom: 1px solid #693c44;
 }
 
 td, th {
@@ -72,11 +73,11 @@ td, th {
 }
 
 tr:nth-child(even) {
-  background-color: #c7dadf;
+  background-color: #dfc7d4;
 }
 
 tr:nth-child(odd) {
-  background-color: #c7dadf;
+  background-color: #dfc7cf;
 }
 
 .headimage {
@@ -101,7 +102,7 @@ tr:nth-child(odd) {
 /* Style the links inside the navigation bar */
 .topnav a {
   float: inline-end;
-  color:#7fd6ec;
+  color:#ec7fa0;
   text-align: center;
   padding: 10px 1px;
   text-decoration: none;
@@ -113,7 +114,7 @@ tr:nth-child(odd) {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #4a9fb4;
+  background-color: #b44a7b;
   color:#1a0a0c;
   text-decoration-line: underline;
   text-decoration-style: double;
@@ -121,7 +122,7 @@ tr:nth-child(odd) {
 
 /* Add a color to the active /current link */
 .topnav a.active {
-  background-color: #2b6372;
+  background-color: #722b46;
   color: white;
 }
 
@@ -135,7 +136,7 @@ form.example input[type=text] {
   border: 1px solid #0f1e22;
   float: left;
   width: 80%;
-  background:  #bfd6db;
+  background:  #dbbfcc;
 }
 
 form.example button {
@@ -143,7 +144,7 @@ form.example button {
   width: 20%;
   padding: 10px 16px;
   background:  #000000;
-  color:  #86b9c5;
+  color:  #c586a3;
   font-size: 17px;
   border-left: none;
   cursor: pointer;
@@ -180,8 +181,8 @@ form.example::after {
 .T{
   width: 320px;
   padding: 10px;
-  border: 5px, solid, #7fd6ec;
-  background-color: #608e9c;
+  border: 5px, solid, #ec7fa0;
+  background-color: #9c6072;
   margin: 0;
 }
 
@@ -191,8 +192,7 @@ form.example::after {
 
 .flashes{
   place-items: center;
-  margin-left: 560px;
-
+  margin: auto;
 }
 
 .flashes li{
@@ -201,12 +201,11 @@ form.example::after {
 }
 
 .alert-error {
-  background-color: #2b6372;
   padding: 10px;
   padding-bottom: 35px;
-  width: 50%;
+  width: 100%;
   text-align: center;
-  color: #e4d1dd;
+  color: #000000;
 }
 
 .log-in{
@@ -242,15 +241,11 @@ input[type=submit] {
   text-align: center;
 }
 
-input[type=text]{
+input[type=text], input[type=password]{
   background-color: #e4d1dd;
   border: none;
   font-family: Helvetica, sans-serif, Arial,;
   padding: 10px;
-}
-
-input[type=text]:active {
-  border: none;
 }
 
 .messages-flash{
@@ -265,4 +260,11 @@ input[type=text]:active {
 
 .flash.div ul li{
   display:inline;
+}
+
+.flashes{
+  text-align:center;
+}
+.flashes ul li{
+ display:inline;
 }
