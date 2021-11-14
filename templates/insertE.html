@@ -14,18 +14,21 @@
                 <button type="submit"><i>insertE</i></button>
             </form>
 
-<table>
-    {% for item in results %}
+
+    {% if results %}
+    <table>
     <tr>
         <th>Year</th>
         <th>Description</th>
     </tr>
+    {% endif %}
+    {% for item in results %}
     <tr>
         <td>{{ item[0] }}</td>
         <td>{{ item[1] }}</td>
     </tr>
     {% else %}
+    </table>
     {% endfor %}
-</table>
 
 {% endblock %}

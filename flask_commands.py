@@ -90,14 +90,13 @@ def era():
     if 'username' in session:
         cursor = get_db().cursor()
         if request.method == "POST":
-            era = request.values['era']
+            era = request.form.get('era')
+            
+            sql = ("SELECT year, description FROM era WHERE year LIKE ?")
+            cursor.execute(sql,(era,))
             results = cursor.fetchall()
             if len(results) == 0:
                 flash("Nothing found, please try again.")
-            else:
-                sql = ("SELECT year, description from era WHERE year LIKE ?")
-                cursor.execute(sql,(era,))
-                results = cursor.fetchall()
             return render_template('searchE.html', results=results)
     else:
         flash('You have been redirected to the home page. please log in first to access this page!')
@@ -111,16 +110,13 @@ def insert():
     if 'username' in session:
         cursor = get_db().cursor()
         if request.method == "POST":
-            era = request.values['era']
-            sql = ("INSERT INTO era (year) Values (?)")
-            if len(sql) == 0:
-                flash("Nothing found, please try again.")
-                return redirect('searchE.html')
-            else:
-                cursor.execute(sql,(era,))
-                results = cursor.fetchall()
-                return redirect('searchE.html')
-            return render_template('insertE.html', results=results)
+            era = request.form.get('era')
+            sql = ("INSERT INTO era (year,description) Values (?,?)")
+            cursor.execute(sql,(era,))
+            return redirect(url_for('era'))
+        else:
+            flash("Nothing found, please try again.")
+            return redirect('searchE.html')
     else:
         flash('You have been redirected to the home page. please log in first to access this page!')
         return redirect(url_for('login'))
